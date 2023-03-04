@@ -1,15 +1,31 @@
 class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
-        int n = size(nums), L = 0, R = n-1, mid, ans;
-        while(L <= R) {
-            mid = (L + R) >> 1;
-            if(mid & 1) mid--;                              // make mid even to check for required condition
-            if(mid+1 < n && nums[mid] == nums[mid+1])       // condition satisfied upto mid+1:
-                L = mid+2;                                  // so search in [mid+2, R] to find point where condition starts to fail
-            else                                            // condition not satisfied:
-                R = mid-1, ans = nums[mid];                 // nums[mid] is potential answer. search [L, mid-1] to see if condition started to fail somewhere before
-        }
-        return ans;
+       int low = 0;
+        int n=nums.size();
+            int high =  n- 2;
+        
+            while (low <= high) {
+                int mid = (low + high) / 2;
+                
+                if (mid % 2 == 0) {
+                    if (nums[mid] != nums[mid + 1]) 
+                    //Checking whether we are in right half
+
+                        high = mid - 1; //Shrinking the right half
+                    else
+                        low = mid + 1; //Shrinking the left half
+                } else {
+
+                    //Checking whether we are in right half
+                    if (nums[mid] == nums[mid + 1]) 
+                        high = mid - 1; //Shrinking the right half
+                    else
+                        low = mid + 1; //Shrinking the left half
+                }
+            }
+
+            return nums[low];
+        
     }
 };
